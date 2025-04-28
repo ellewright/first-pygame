@@ -53,25 +53,29 @@ def has_collided(x1, y1, x2, y2):
 
     return False
 
-running = True
+def main():
+    global player_x, player_y, heart_x, heart_y
 
-while running:
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            running = False
-    
-    screen.fill("thistle1")
+    running = True
+    while running:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                running = False
+        
+        screen.fill("thistle1")
 
-    draw_heart(heart_x, heart_y)
-    draw_player(player_x, player_y)
-    control_movement()
+        draw_heart(heart_x, heart_y)
+        draw_player(player_x, player_y)
+        control_movement()
 
-    if has_collided(player_x, player_y, heart_x, heart_y):
-        heart_x = random.randint(0, WIDTH - math.floor(PADDING_X + (HEART_WIDTH / 2)))
-        heart_y = random.randint(0, HEIGHT - math.floor((PADDING_Y * 3) + (HEART_HEIGHT / 2)))  
+        if has_collided(player_x, player_y, heart_x, heart_y):
+            heart_x = random.randint(0, WIDTH - math.floor(PADDING_X + (HEART_WIDTH / 2)))
+            heart_y = random.randint(0, HEIGHT - math.floor((PADDING_Y * 3) + (HEART_HEIGHT / 2)))  
 
-    pygame.display.flip()
+        pygame.display.flip()
 
-    clock.tick(FPS)
+        clock.tick(FPS)
 
-pygame.quit()
+if __name__ == "__main__":
+    main()
+    pygame.quit()
