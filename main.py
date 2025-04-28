@@ -4,6 +4,11 @@ import math
 
 pygame.init()
 
+GRAY = (105, 105, 105)
+
+TITLE_FONT = pygame.font.SysFont("arial", 24, False, False)
+BODY_FONT = pygame.font.SysFont("arial", 16, False, False)
+
 FPS = 60
 WIDTH = 800
 HEIGHT = 600
@@ -13,17 +18,17 @@ PLAYER_ICON = pygame.transform.scale_by(pygame.image.load("woman.png"), 0.1)
 PLAYER_WIDTH = PLAYER_ICON.get_size()[0]
 PLAYER_HEIGHT = PLAYER_ICON.get_size()[1]
 PLAYER_SPEED = 5
-PADDING_X = (PLAYER_WIDTH / 2)
-PADDING_Y = (PLAYER_HEIGHT / 2)
+PADDING_X = (PLAYER_WIDTH // 2)
+PADDING_Y = (PLAYER_HEIGHT // 2)
 
-player_x = (WIDTH / 2) - (PADDING_X)
+player_x = (WIDTH // 2) - (PADDING_X)
 player_y = HEIGHT - (PADDING_Y * 3)
 
 HEART_ICON = pygame.transform.scale_by(pygame.image.load("heart.png"), 0.1)
 HEART_WIDTH = HEART_ICON.get_size()[0]
 HEART_HEIGHT = HEART_ICON.get_size()[1]
-heart_x = random.randint(0, WIDTH - math.floor(PADDING_X + (HEART_WIDTH / 2)))
-heart_y = random.randint(0, HEIGHT - math.floor((PADDING_Y * 3) + (HEART_HEIGHT / 2)))
+heart_x = random.randint(0, WIDTH - (PADDING_X + HEART_WIDTH))
+heart_y = random.randint(0, HEIGHT - ((PADDING_Y * 3) + (HEART_HEIGHT)))
 
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 clock = pygame.time.Clock()
@@ -53,8 +58,35 @@ def has_collided(x1, y1, x2, y2):
 
     return False
 
+def draw_title_screen():
+    TITLE_TEXT = "Ellie needs your help, brave hero!"
+    BODY_LINES = [
+        "She dropped her heart vessels - each containing",
+        "a special reason she loves her girlfriend.",
+        "Can you get them back for her?"
+    ]
+
+    screen.fill("thistle1")
+
+    title = TITLE_FONT.render(TITLE_TEXT, True, GRAY)
+    title_rect = title.get_rect(center=(WIDTH // 2, HEIGHT // 3))
+
+    screen.blit(title, title_rect)
+
+    line_level = HEIGHT // 2
+    for line in BODY_LINES:
+        rendered_line = BODY_FONT.render(line, True, GRAY)
+        line_rect = rendered_line.get_rect(center=(WIDTH // 2, line_level))
+        screen.blit(rendered_line, line_rect)
+        line_level += 20
+
+    pygame.display.flip()
+    pygame.time.delay(5000)
+
 def main():
     global player_x, player_y, heart_x, heart_y
+
+    draw_title_screen()
 
     running = True
     while running:
@@ -69,8 +101,8 @@ def main():
         control_movement()
 
         if has_collided(player_x, player_y, heart_x, heart_y):
-            heart_x = random.randint(0, WIDTH - math.floor(PADDING_X + (HEART_WIDTH / 2)))
-            heart_y = random.randint(0, HEIGHT - math.floor((PADDING_Y * 3) + (HEART_HEIGHT / 2)))  
+            heart_x = random.randint(0, WIDTH - (PADDING_X + (HEART_WIDTH // 2)))
+            heart_y = random.randint(0, HEIGHT - ((PADDING_Y * 3) + (HEART_HEIGHT // 2)))  
 
         pygame.display.flip()
 
