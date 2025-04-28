@@ -7,6 +7,7 @@ pygame.init()
 FPS = 60
 WIDTH = 800
 HEIGHT = 600
+HITBOX = 25
 
 PLAYER_ICON = pygame.transform.scale_by(pygame.image.load("woman.png"), 0.1)
 PLAYER_WIDTH = PLAYER_ICON.get_size()[0]
@@ -45,6 +46,13 @@ def control_movement():
     if keys[pygame.K_d] and player_x + PLAYER_SPEED < WIDTH - (PLAYER_WIDTH * 1.5):
         player_x += PLAYER_SPEED
 
+def has_collided(x1, y1, x2, y2):
+    distance = math.sqrt((math.pow(x2 - x1, 2) + math.pow(y2 - y1, 2)))
+    if distance < HITBOX:
+        return True
+
+    return False
+
 running = True
 
 while running:
@@ -57,6 +65,10 @@ while running:
     draw_heart(heart_x, heart_y)
     draw_player(player_x, player_y)
     control_movement()
+
+    if has_collided(player_x, player_y, heart_x, heart_y):
+        heart_x = random.randint(0, WIDTH - math.floor(PADDING_X + (HEART_WIDTH / 2)))
+        heart_y = random.randint(0, HEIGHT - math.floor((PADDING_Y * 3) + (HEART_HEIGHT / 2)))  
 
     pygame.display.flip()
 
