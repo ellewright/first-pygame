@@ -1,4 +1,6 @@
 import pygame
+import random
+import math
 
 pygame.init()
 
@@ -10,15 +12,26 @@ PLAYER_ICON = pygame.transform.scale_by(pygame.image.load("woman.png"), 0.1)
 PLAYER_WIDTH = PLAYER_ICON.get_size()[0]
 PLAYER_HEIGHT = PLAYER_ICON.get_size()[1]
 PLAYER_SPEED = 5
+PADDING_X = (PLAYER_WIDTH / 2)
+PADDING_Y = (PLAYER_HEIGHT / 2)
 
-player_x = (WIDTH / 2) - (PLAYER_WIDTH / 2)
-player_y = HEIGHT - (PLAYER_HEIGHT * 1.5)
+player_x = (WIDTH / 2) - (PADDING_X)
+player_y = HEIGHT - (PADDING_Y * 3)
+
+HEART_ICON = pygame.transform.scale_by(pygame.image.load("heart.png"), 0.1)
+HEART_WIDTH = HEART_ICON.get_size()[0]
+HEART_HEIGHT = HEART_ICON.get_size()[1]
+heart_x = random.randint(0, WIDTH - math.floor(PADDING_X + (HEART_WIDTH / 2)))
+heart_y = random.randint(0, HEIGHT - math.floor((PADDING_Y * 3) + (HEART_HEIGHT / 2)))
 
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 clock = pygame.time.Clock()
 
 def draw_player(x, y):
     screen.blit(PLAYER_ICON, (x, y))
+
+def draw_heart(x, y):
+    screen.blit(HEART_ICON, (x, y))
 
 def control_movement():
     global player_x, player_y
@@ -41,6 +54,7 @@ while running:
     
     screen.fill("thistle1")
 
+    draw_heart(heart_x, heart_y)
     draw_player(player_x, player_y)
     control_movement()
 
