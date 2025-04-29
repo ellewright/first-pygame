@@ -96,6 +96,30 @@ def draw_title_screen():
     pygame.display.flip()
     pygame.time.delay(5000)
 
+def draw_game_over_screen():
+    TITLE_TEXT = "You found my hearts!"
+    BODY_LINES = [
+        "Thank you, brave hero.",
+        "Without my hearts, surely I would have perished.",
+        "You're my glorious saviour!"
+    ]
+    screen.fill("thistle1")
+
+    title = TITLE_FONT.render(TITLE_TEXT, True, GRAY)
+    title_rect = title.get_rect(center=(WIDTH // 2, HEIGHT // 3))
+
+    screen.blit(title, title_rect)
+
+    line_level = HEIGHT // 2
+    for line in BODY_LINES:
+        rendered_line = BODY_FONT.render(line, True, GRAY)
+        line_rect = rendered_line.get_rect(center=(WIDTH // 2, line_level))
+        screen.blit(rendered_line, line_rect)
+        line_level += 20
+
+    pygame.display.flip()
+    pygame.time.delay(5000)
+
 def draw_secret(secret):
     rendered_secret = BODY_FONT.render(secret, True, GRAY)
     secret_rect = rendered_secret.get_rect(center=(WIDTH // 2, HEIGHT // 2))
@@ -115,6 +139,7 @@ def main():
                 running = False
 
         if secret_index > len(SECRETS) - 1:
+            draw_game_over_screen()
             running = False
             break
         
