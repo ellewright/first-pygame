@@ -30,6 +30,19 @@ HEART_HEIGHT = HEART_ICON.get_size()[1]
 heart_x = random.randint(0, WIDTH - (PADDING_X + HEART_WIDTH))
 heart_y = random.randint(0, HEIGHT - ((PADDING_Y * 3) + (HEART_HEIGHT)))
 
+SECRETS = [
+    "Ellie's girlfriend always knows how to make her smile.",
+    "Ellie loves that her girlfriend is as much a cat person as she.",
+    "Ellie's girlfriend has the same silly sense of humor as her.",
+    "Ellie loves that her girlfriend is always looking out for others.",
+    "Ellie's girlfriend has the best fashion, every color looks good on her.",
+    "Ellie loves when her girlfriend takes care of her and makes her food.",
+    "Ellie's girlfriend has the cutest dimples which look adorable smiling.",
+    "Ellie loves her girlfriend's family, who took her in without question.",
+    "Ellie's girlfriend is her favorite artist and she cherishes her paintings.",
+    "Ellie loves her girlfriend's contagious laugh and carefree spirit."
+]
+
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 clock = pygame.time.Clock()
 
@@ -83,8 +96,15 @@ def draw_title_screen():
     pygame.display.flip()
     pygame.time.delay(5000)
 
+def draw_secret(secret):
+    rendered_secret = BODY_FONT.render(secret, True, GRAY)
+    secret_rect = rendered_secret.get_rect(center=(WIDTH // 2, HEIGHT // 2))
+    screen.blit(rendered_secret, secret_rect)
+    pygame.display.flip()
+
 def main():
     global player_x, player_y, heart_x, heart_y
+    secret_index = 0
 
     draw_title_screen()
 
@@ -93,6 +113,10 @@ def main():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
+
+        if secret_index > len(SECRETS) - 1:
+            running = False
+            break
         
         screen.fill("thistle1")
 
@@ -101,11 +125,13 @@ def main():
         control_movement()
 
         if has_collided(player_x, player_y, heart_x, heart_y):
+            draw_secret(SECRETS[secret_index])
+            pygame.time.delay(5000)
             heart_x = random.randint(0, WIDTH - (PADDING_X + (HEART_WIDTH // 2)))
-            heart_y = random.randint(0, HEIGHT - ((PADDING_Y * 3) + (HEART_HEIGHT // 2)))  
+            heart_y = random.randint(0, HEIGHT - ((PADDING_Y * 3) + (HEART_HEIGHT // 2)))
+            secret_index += 1
 
         pygame.display.flip()
-
         clock.tick(FPS)
 
 if __name__ == "__main__":
