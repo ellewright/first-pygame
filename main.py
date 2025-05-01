@@ -24,7 +24,7 @@ PADDING_Y = (PLAYER_HEIGHT // 2)
 player_x = (WIDTH // 2) - (PADDING_X)
 player_y = HEIGHT - (PADDING_Y * 3)
 
-HEART_ICON = pygame.transform.scale_by(pygame.image.load("heart.png"), 0.1)
+HEART_ICON = pygame.transform.scale_by(pygame.image.load("heart.png"), 0.05)
 HEART_WIDTH = HEART_ICON.get_size()[0]
 HEART_HEIGHT = HEART_ICON.get_size()[1]
 heart_x = random.randint(PLAYER_WIDTH // 2, WIDTH - math.ceil(PLAYER_WIDTH * 1.5))
