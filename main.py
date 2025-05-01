@@ -27,8 +27,14 @@ player_y = HEIGHT - (PADDING_Y * 3)
 HEART_ICON = pygame.transform.scale_by(pygame.image.load("heart.png"), 0.1)
 HEART_WIDTH = HEART_ICON.get_size()[0]
 HEART_HEIGHT = HEART_ICON.get_size()[1]
-heart_x = random.randint(0, WIDTH - (PADDING_X + HEART_WIDTH))
-heart_y = random.randint(0, HEIGHT - ((PADDING_Y * 3) + (HEART_HEIGHT)))
+heart_x = random.randint(PLAYER_WIDTH // 2, WIDTH - math.ceil(PLAYER_WIDTH * 1.5))
+heart_y = random.randint(PLAYER_HEIGHT // 2, HEIGHT - math.ceil(PLAYER_HEIGHT * 1.5))
+
+PRINCESS_ICON = pygame.transform.scale_by(pygame.image.load("princess.png"), 0.1)
+PRINCESS_WIDTH = PRINCESS_ICON.get_size()[0]
+PRINCESS_HEIGHT = PRINCESS_ICON.get_size()[1]
+princess_x = WIDTH // 2 - (PRINCESS_WIDTH // 2)
+princess_y = HEIGHT - (HEIGHT // 3)
 
 SECRETS = [
     "Ellie's girlfriend always knows how to make her smile.",
@@ -51,6 +57,9 @@ def draw_player(x, y):
 
 def draw_heart(x, y):
     screen.blit(HEART_ICON, (x, y))
+
+def draw_princess(x, y):
+    screen.blit(PRINCESS_ICON, (x, y))
 
 def control_movement():
     global player_x, player_y
@@ -103,7 +112,9 @@ def draw_game_over_screen():
         "Without my hearts, surely I would have perished.",
         "You're my glorious saviour!"
     ]
+    
     screen.fill("thistle1")
+    draw_princess(princess_x, princess_y)
 
     title = TITLE_FONT.render(TITLE_TEXT, True, GRAY)
     title_rect = title.get_rect(center=(WIDTH // 2, HEIGHT // 3))
